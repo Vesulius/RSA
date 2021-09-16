@@ -1,0 +1,7 @@
+/encryption/.gradle
+/encryption/build
+/encryption/bin
+/encryption/.*
+!/encryption/.gitignore
+.*
+!.gitignore

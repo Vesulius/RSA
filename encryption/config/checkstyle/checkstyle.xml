@@ -48,7 +48,7 @@
         <module name='StaticVariableName' />
         <module name='TypeName' />
 
-        <!-- Typing politics -->
+        <!-- Code politics -->
 
         <module name="UnnecessarySemicolonInTryWithResources"/>
         <module name="UnnecessarySemicolonAfterOuterTypeDeclaration"/>

@@ -1,45 +1,62 @@
 package encryption;
 
 import java.math.BigInteger;
+import java.util.Random;
 
+
+/**
+ * 
+ * Class that is responsible for the encryption mechanism
+ * 
+ * Generates and currently stores keys
+ * 
+ * Encrypts and decrypts String text
+ * 
+ */
 public class RSA {
 
     BigInteger[] publicKey = new BigInteger[2];
     BigInteger[] privateKey = new BigInteger[2];
 
+    /**
+     * 
+     * Key generator
+     * 
+     * <p>
+     * Stores keys as BigInteger arrays
+     * </p>
+     * 
+     */
     public void generateKeys() {
-        // p and q must be primes
-        int p = 61;
-        int q = 53;
+        Random random = new Random();
+        BigInteger one = new BigInteger("1");
 
-        int n = p * q;
+        // p and q must be primes
+        BigInteger p = BigInteger.probablePrime(512, random);
+        BigInteger q = BigInteger.probablePrime(512, random);
+
+        BigInteger n = p.multiply(q);
 
         // phi(n) = c
         // phi is Euler's totient function
         // phi(n) is the number of integers from 1 to n that coprime with n
-        int c = (p - 1) * (q - 1);
+        BigInteger c = p.subtract(one).multiply(q.subtract(one));
 
         // 2 conditions for e:
         // 1: 1 < e < c
-        // 2: coprime with n and c
+        // 2: coprime with c
         // multiple algorithms to solve this:
         // https://en.wikipedia.org/wiki/Greatest_common_divisor#Calculation
-        // lets just choose 17 for now
-        int e = 17;
+        // this also works: just chose a prime between 1 and c
+        BigInteger e = BigInteger.probablePrime(32, random);
+        System.out.println("e: " + e.toString() + "\n");
 
         // (d * e) % c = 1
         // Can be calculated using Extended Euclidean algorithm:
         // https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
-        // this works but is slow:
-        int d = -1;
-        for (int i = 0; i < c * 2; i++) {
-            int remainder = (i * e) % c;
-            if (remainder == 1) {
-                d = i;
-                break;
-            }
-        }
-        d = 413;
+        BigInteger d = e.modInverse(c);
+        
+
         // integers for encryption: e, n
         // integers for decryption: d, n
         
@@ -48,46 +65,36 @@ public class RSA {
 
         this.privateKey[0] = new BigInteger(String.valueOf(d));
         this.privateKey[1] = new BigInteger(String.valueOf(n));
-
-        // BigInteger test = new BigInteger("65");
-        // BigInteger enc = test.modPow(publicKey[0], publicKey[1]);
-        // BigInteger dec = enc.modPow(privateKey[0], privateKey[1]);
-
-        // System.out.println(enc);
-        // System.out.println(dec);
-
-        String message = "hello";
-
-        byte[] byteMessage = message.getBytes();
-        // System.out.println(byteToString(byteMessage));
-        System.out.println(new String(byteMessage));
-        byte[] encyptedMessage = new BigInteger(byteMessage).modPow(publicKey[0], publicKey[1]).toByteArray();
-        System.out.println(new String(encyptedMessage));
-        byte[] decryptedMessage = new BigInteger(encyptedMessage).modPow(privateKey[0], privateKey[1]).toByteArray();
-        // System.out.println(byteToString(decryptedMessage));
-        System.out.println(new String(decryptedMessage));
-
-    }
- 
-    private String byteToString(byte[] stream) {
-        String ret = "";
-        for (byte b : stream) {
-            ret += Byte.toString(b);
-        }
-        return ret;
     }
 
+    /**
+     * 
+     * Encrypts given String text and returns encrypted text as String
+     * 
+     * Uses publickey from this class to encrypt message
+     * Maxium message size is currently 128 characters
+     * 
+     * @param message String text to be crypted
+     * @return Encrypted text as String
+     */
     public String encrypt(String message) {
         byte[] byteMessage = message.getBytes();
-        System.out.println(byteToString(byteMessage));
         BigInteger encyptedMessage = new BigInteger(byteMessage).modPow(publicKey[0], publicKey[1]);
         return encyptedMessage.toString();
     }
 
+    /**
+     * 
+     * Decrypts given String text and returns decrypted text as String
+     * 
+     * Uses privatekey from this class to encrypt message
+     * 
+     * @param encryptedMessage Encrypted String message to be decrypted
+     * @return Decrypted message as String
+     */
     public String decrypt(String encryptedMessage) {
         BigInteger mes = new BigInteger(encryptedMessage);
         BigInteger decryptedMessage = mes.modPow(privateKey[0], privateKey[1]);
-        System.out.println(byteToString(decryptedMessage.toByteArray()));
         return new String(decryptedMessage.toByteArray());
     }
 }

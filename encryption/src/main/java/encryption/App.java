@@ -6,9 +6,11 @@ public class App {
 
         rsa.generateKeys();
 
-        // String encrypted = rsa.encrypt("message");
-        // System.out.println("encrypted " + encrypted);
-        // String decrypted = rsa.decrypt(encrypted);
-        // System.out.println("decrypted " + decrypted);
+        String encrypted = rsa.encrypt("This message is very big i am warning you that this message is very big i am warning you that 1234567adsfasdfasdfasdfasaasdfasdf");
+
+        System.out.println("encrypted " + encrypted);
+        String decrypted = rsa.decrypt(encrypted);
+        System.out.println(decrypted);
+
     }
 }

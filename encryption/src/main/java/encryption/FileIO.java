@@ -50,9 +50,6 @@ public class FileIO {
         String fileContent = "";
         try {
             File file = new File(filePath);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();

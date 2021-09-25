@@ -5,8 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.TestInstance;
 
-public class RSATesa {
+@TestInstance(Lifecycle.PER_CLASS)
+public class RSATest {
     
     RSA rsa;
     String message;
@@ -33,6 +36,6 @@ public class RSATesa {
     public void decryptTest() {
         String decrypted = rsa.decrypt(encryptedMessage);
 
-        assertEquals(encryptedMessage, decrypted);
+        assertEquals(message, decrypted);
     }
 }

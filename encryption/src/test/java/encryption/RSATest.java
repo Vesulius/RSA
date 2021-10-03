@@ -3,6 +3,9 @@ package encryption;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.math.BigInteger;
+import java.util.Random;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -18,7 +21,11 @@ public class RSATest {
     @BeforeAll
     public void generateKeysTest() {
         rsa = new RSA();
-        rsa.generateKeys();
+
+        BigInteger p = BigInteger.probablePrime(64, new Random());
+        BigInteger q = BigInteger.probablePrime(64, new Random());
+        BigInteger e = BigInteger.probablePrime(16, new Random());
+        rsa.generateKeys(p, q, e);
 
         message = "Test message";
         encryptedMessage = rsa.encrypt(message);

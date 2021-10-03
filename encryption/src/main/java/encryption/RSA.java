@@ -1,8 +1,6 @@
 package encryption;
 
 import java.math.BigInteger;
-import java.util.Random;
-
 
 /**
  * 
@@ -27,13 +25,11 @@ public class RSA {
      * </p>
      * 
      */
-    public void generateKeys() {
-        Random random = new Random();
-        BigInteger one = new BigInteger("1");
+    public void generateKeys(BigInteger p, BigInteger q, BigInteger e) {
+        // Random random = new Random();
+        BigInteger one = BigInteger.ONE;
 
         // p and q must be primes
-        BigInteger p = BigInteger.probablePrime(512, random);
-        BigInteger q = BigInteger.probablePrime(512, random);
 
         BigInteger n = p.multiply(q);
 
@@ -48,8 +44,6 @@ public class RSA {
         // multiple algorithms to solve this:
         // https://en.wikipedia.org/wiki/Greatest_common_divisor#Calculation
         // this also works: just chose a prime between 1 and c
-        BigInteger e = BigInteger.probablePrime(32, random);
-        System.out.println("e: " + e.toString() + "\n");
 
         // (d * e) % c = 1
         // Can be calculated using Extended Euclidean algorithm:

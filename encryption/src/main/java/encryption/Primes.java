@@ -1,7 +1,7 @@
 package encryption;
 
 import java.math.BigInteger;
-
+import java.util.Random;
 
 /**
  * 
@@ -12,20 +12,25 @@ import java.math.BigInteger;
  */
 public class Primes {
 
-
     /**
      * 
      * Generates numbers until one passes the primality test
      * 
+     * @param Integer bitsize of the starting seed
+     * 
      * @return BigInteger number that has passed the test
      * @return if no number passess, null
      */
-    public BigInteger generate() {
-        BigInteger seed = new BigInteger("123456");
-        for (int i = 1; i < 100000; i++) {
+    public BigInteger generate(int bits) {
+        BigInteger seed = new BigInteger(bits, new Random());
+
+        // Check to make sure the seed is odd
+        if (seed.mod(BigInteger.TWO).compareTo(BigInteger.ZERO) == 0) {
             seed = seed.add(BigInteger.ONE);
+        }
+        for (long i = 1; i < 1000000; i++) {
+            seed = seed.add(BigInteger.TWO);
             if (mrTest(seed)) {
-                System.out.println(i);
                 return seed;     
             }
         }

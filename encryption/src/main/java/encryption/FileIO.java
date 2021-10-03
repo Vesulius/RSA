@@ -39,7 +39,7 @@ public class FileIO {
      * @return boolean value depending if message is written
      */
     public boolean writeMessage(String message, String file) {
-        return fileWriter(pathMaker(file), message);
+        return fileWriter(message, pathMaker(file));
     }
 
     private String pathMaker(String file) {
@@ -64,7 +64,7 @@ public class FileIO {
         return fileContent;
     }
 
-    private boolean fileWriter(String filePath, String content) {
+    private boolean fileWriter(String content, String filePath) {
         try {
             FileWriter writer = new FileWriter(filePath);
             writer.write(content);

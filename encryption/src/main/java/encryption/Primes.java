@@ -1,7 +1,9 @@
 package encryption;
 
 import java.math.BigInteger;
-import java.util.Random;
+import java.security.SecureRandom;
+
+import org.checkerframework.checker.units.qual.g;
 
 /**
  * 
@@ -11,6 +13,10 @@ import java.util.Random;
  * 
  */
 public class Primes {
+
+    // all primes between 2 and 100
+    int[] intPrimes = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 };
+    BigInteger[] bigIntPrimes; 
 
     /**
      * 
@@ -22,55 +28,87 @@ public class Primes {
      * @return if no number passess, null
      */
     public BigInteger generate(int bits) {
-        BigInteger seed = new BigInteger(bits, new Random());
+        SecureRandom random = new SecureRandom();
+        boolean divideByPrimes = true;
+        int rounds = 10;
 
-        // Check to make sure the seed is odd
-        if (seed.mod(BigInteger.TWO).compareTo(BigInteger.ZERO) == 0) {
-            seed = seed.add(BigInteger.ONE);
-        }
-        for (long i = 1; i < 1000000; i++) {
-            seed = seed.add(BigInteger.TWO);
-            if (mrTest(seed)) {
-                return seed;     
+        while (true) {
+            BigInteger prime = new BigInteger(bits, random);
+            if (divideByPrimes && !divideByPrimes(prime)) continue;
+
+            boolean pass = true;
+            for (int i = 0; i < rounds; i++) {
+                if (!mrTest(prime, random)) {
+                    pass = false;
+                    continue;
+                }
             }
+            if (pass) return prime;
         }
-        return null;
     }
 
     /**
      * 
-     * Testing numbers for primality
+     * Quick test to rule out composite (non-prime) numbers
      * 
      * <p>
-     * This uses Miller-Rabin primality test. Numbers that pass this test are
-     * propable primes, not quaranteed
+     * This is done dividing given number by primes from 2 to 100. If given number can be factored, it is not prime.
+     * This test cannot rule numbers as prime.
+     * </p>
+     * 
+     * @param number BigInteger number to be tested
+     * @return boolean value. True if number isnt factored, false otherwise.
+     */
+    public boolean divideByPrimes(BigInteger number) {
+        if (bigIntPrimes == null) {
+            bigIntPrimes = new BigInteger[intPrimes.length];
+            for (int i = 0; i < intPrimes.length; i++) {
+                bigIntPrimes[i] = BigInteger.valueOf(intPrimes[i]);
+            }
+        }
+
+        for (int i = 0; i < bigIntPrimes.length; i++) {
+            if (number.mod(bigIntPrimes[i]).compareTo(BigInteger.ZERO) == 0) return false;
+        }
+        return true;
+    }
+
+    /**
+     * 
+     * Tests given number for primality
+     * 
+     * <p>
+     * This is done useing Miller-Rabin primality test. Numbers that pass this test are
+     * propable primes, not quaranteed.
      * </P>
      * 
      * 
      * @param prime BigInteger number to be tested for primality
-     * @return boolean true value if test is passed, false otherwise
+     * @return boolean value. True if test is passed, false otherwise
      */
     // This is Miller-Rabin primality test for finding propable primes
-    public boolean mrTest(BigInteger prime) {
-        // step 1: find the terms that make 2^r * d + 1 = given prime
-        BigInteger[] factors = factor(prime);
+    public boolean mrTest(BigInteger number, SecureRandom random) {
+        // step 1: find the terms that make 2^r * d + 1 = given number
+        BigInteger[] factors = factor(number);
         BigInteger r = factors[0];
         BigInteger d = factors[1];
 
         // step 2: select a within in the range [1, n-2]
         // The test becomes more accurate the more different a values are tried
-        // Lets just choose 2 for now
-        BigInteger a = new BigInteger("2");
+        BigInteger a = BigInteger.ZERO;
+        while(a.compareTo(BigInteger.ONE) <= 0) {
+            a = new BigInteger(number.bitLength() - 1, random);
+        }
+        System.out.println(a.toString());
 
         // step 3: first count x
-        BigInteger x = a.modPow(d, prime);
-        // if x = 1 or -1 then given prime is propably truly prime
-        if (x.intValue() == 1) return true;
-        if (x.intValue() == -1) return true;
+        BigInteger x = a.modPow(d, number);
+        // if x = 1 or -1 then given number is propably truly prime
+        if (x.intValue() == 1 || x.intValue() == -1) return true;
 
         // continue this prosess but now only if x = 1 is given prime propably truly prime
         for (int i = 0; i < r.intValueExact(); i++) {
-            x = x.modPow(BigInteger.TWO, prime);
+            x = x.modPow(BigInteger.TWO, number);
             if (x.compareTo(BigInteger.ONE) == 0) return true;
         }
 

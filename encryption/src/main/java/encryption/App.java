@@ -1,6 +1,5 @@
 package encryption;
 
-
 /**
  * 
  * Responsible for starting the application and creating the classes

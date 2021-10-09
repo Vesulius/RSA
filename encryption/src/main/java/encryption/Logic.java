@@ -29,8 +29,8 @@ public class Logic {
      * 
      */
     public void generate() {
-        BigInteger p = primes.generate(64);
-        BigInteger q = primes.generate(64);
+        BigInteger p = primes.generate(1024);
+        BigInteger q = primes.generate(1024);
         BigInteger e = primes.generate(16);
 
         rsa.generateKeys(p, q, e);

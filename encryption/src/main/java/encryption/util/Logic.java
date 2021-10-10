@@ -4,7 +4,6 @@ import java.math.BigInteger;
 
 import encryption.math.Primes;
 import encryption.math.RSA;
-import encryption.util.FileIO;
 
 /**
  * 
@@ -31,13 +30,19 @@ public class Logic {
      * 
      * Generates the keys needed for encyption and decryption
      * 
+     * @return String list of generated key parts
      */
-    public void generate() {
+    public String[] generate() {
         BigInteger p = primes.generate(1024);
         BigInteger q = primes.generate(1024);
         BigInteger e = primes.generate(16);
 
-        rsa.generateKeys(p, q, e);
+        String[] keys = rsa.generateKeys(p, q, e);
+
+        io.writeMessage(keys[0] + "\n" + keys[2], "public_key.txt");
+        io.writeMessage(keys[1] + "\n" + keys[2], ".private_key.txt");
+
+        return keys;
     }
     
     /**
@@ -48,7 +53,8 @@ public class Logic {
      * @return encrypted message as String
      */
     public String encyptMessage(String message) {
-        String encrypted = rsa.encrypt(message);
+        String[] key = io.readMessage("public_key.txt").split("\n");
+        String encrypted = rsa.encrypt(message, key);
         io.writeMessage(encrypted, "encrypted.txt");
         return encrypted;
     } 
@@ -60,7 +66,8 @@ public class Logic {
      * @return String message decrypted
      */
     public String decryptMessage() {
+        String[] key = io.readMessage(".private_key.txt").split("\n");
         String encypted = io.readMessage("encrypted.txt");
-        return rsa.decrypt(encypted);
+        return rsa.decrypt(encypted, key);
     }
 }

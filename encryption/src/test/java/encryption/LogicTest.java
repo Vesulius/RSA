@@ -21,6 +21,8 @@ public class LogicTest {
     RSA rsa;
     FileIO io;
     Primes primes;
+    String[] publicKey;
+    String[] privateKey;
 
     @BeforeAll
     public void setUp() {
@@ -33,11 +35,17 @@ public class LogicTest {
     @BeforeEach
     public void generatesKeys() {
         logic.generate();
+        
+        publicKey = io.readMessage("public_key.txt").split("\n");
+        privateKey = io.readMessage(".private_key.txt").split("\n");
+        
+        assertNotNull(publicKey);
+        assertNotNull(privateKey);
+        
+        assertEquals(publicKey.length, 2);
+        assertEquals(privateKey.length, 2);
 
-        assertNotNull(rsa.privateKey[0]);
-        assertNotNull(rsa.privateKey[1]);
-        assertNotNull(rsa.publicKey[0]);
-        assertNotNull(rsa.publicKey[1]);
+        assertEquals(publicKey[1], privateKey[1]);
     }
 
     @Test
@@ -46,13 +54,13 @@ public class LogicTest {
         String encrypted = logic.encyptMessage(message);
 
         assertNotEquals(encrypted, message);
-        assertEquals(rsa.decrypt(encrypted), message);
+        assertEquals(rsa.decrypt(encrypted, privateKey), message);
     }
 
     @Test
     public void decryptsMessage() {
         String message = "test";
-        String encrypted = rsa.encrypt(message);
+        String encrypted = rsa.encrypt(message, publicKey);
         io.writeMessage(encrypted, "encrypted.txt");
         assertEquals(logic.decryptMessage(), message);
     }

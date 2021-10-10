@@ -53,7 +53,7 @@ public class FileIO {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();
-                fileContent = fileContent + data;
+                fileContent = fileContent + "\n" + data;
             }
             scanner.close();
         } catch (IOException ioException) {
@@ -61,7 +61,7 @@ public class FileIO {
             ioException.printStackTrace();
         }
 
-        return fileContent;
+        return fileContent.trim();
     }
 
     private boolean fileWriter(String content, String filePath) {

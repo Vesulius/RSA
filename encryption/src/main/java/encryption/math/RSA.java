@@ -13,9 +13,6 @@ import java.math.BigInteger;
  */
 public class RSA {
 
-    public BigInteger[] publicKey = new BigInteger[2];
-    public BigInteger[] privateKey = new BigInteger[2];
-
     /**
      * 
      * Key generator
@@ -24,8 +21,11 @@ public class RSA {
      * Stores keys as BigInteger arrays
      * </p>
      * 
+     * @param BigInteger primes for calculations
+     * @return String array with lenght 3 for all keys in bytes
+     * 
      */
-    public void generateKeys(BigInteger p, BigInteger q, BigInteger e) {
+    public String[] generateKeys(BigInteger p, BigInteger q, BigInteger e) {
         // Random random = new Random();
         BigInteger one = BigInteger.ONE;
 
@@ -54,11 +54,13 @@ public class RSA {
         // integers for encryption: e, n
         // integers for decryption: d, n
         
-        this.publicKey[0] = new BigInteger(String.valueOf(e));
-        this.publicKey[1] = new BigInteger(String.valueOf(n));
+        String[] keys = new String[3];
 
-        this.privateKey[0] = new BigInteger(String.valueOf(d));
-        this.privateKey[1] = new BigInteger(String.valueOf(n));
+        keys[0] = e.toString();
+        keys[1] = d.toString();
+        keys[2] = n.toString();
+
+        return keys;
     }
 
     /**
@@ -71,9 +73,12 @@ public class RSA {
      * @param message String text to be crypted
      * @return Encrypted text as String
      */
-    public String encrypt(String message) {
+    public String encrypt(String message, String[] publicKey) {
+        BigInteger e = new BigInteger(publicKey[0]);
+        BigInteger n = new BigInteger(publicKey[1]);
+
         byte[] byteMessage = message.getBytes();
-        BigInteger encyptedMessage = new BigInteger(byteMessage).modPow(publicKey[0], publicKey[1]);
+        BigInteger encyptedMessage = new BigInteger(byteMessage).modPow(e, n);
         return encyptedMessage.toString();
     }
 
@@ -86,9 +91,12 @@ public class RSA {
      * @param encryptedMessage Encrypted String message to be decrypted
      * @return Decrypted message as String
      */
-    public String decrypt(String encryptedMessage) {
-        BigInteger mes = new BigInteger(encryptedMessage);
-        BigInteger decryptedMessage = mes.modPow(privateKey[0], privateKey[1]);
+    public String decrypt(String encryptedMessage, String[] privateKey) {
+        BigInteger d = new BigInteger(privateKey[0]);
+        BigInteger n = new BigInteger(privateKey[1]);
+
+        BigInteger message = new BigInteger(encryptedMessage);
+        BigInteger decryptedMessage = message.modPow(d, n);
         return new String(decryptedMessage.toByteArray());
     }
 }

@@ -16,9 +16,14 @@ public class UI {
         while (true) {
             instuctions();
             String task  = System.console().readLine();
-            System.out.println("You wrote command '" + task + "' ");
+            System.out.println("You wrote command '" + task + "'\n");
             if (task.equals("generate") || task.equals("g")) {
-                logic.generate();
+                String[] keys = logic.generate();
+                System.out.println("New keys generated\n");
+                System.out.println("PRIVATE KEY:\n");
+                System.out.println(keys[0] + "\n\n" + keys[2]);
+                System.out.println("\nPUBLIC KEY:\n");
+                System.out.println(keys[1] + "\n\n" + keys[2]);
             } else if (task.equals("write") || task.equals("w")) {
                 writeMessage();
             } else if (task.equals("read") || task.equals("r")) {

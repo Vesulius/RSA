@@ -13,6 +13,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+
+import encryption.util.*;
+
 import org.junit.jupiter.api.TestInstance;
 
 @TestInstance(Lifecycle.PER_CLASS)

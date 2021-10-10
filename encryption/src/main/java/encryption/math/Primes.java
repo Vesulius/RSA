@@ -1,9 +1,7 @@
-package encryption;
+package encryption.math;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-
-import org.checkerframework.checker.units.qual.g;
 
 /**
  * 
@@ -66,7 +64,7 @@ public class Primes {
                 bigIntPrimes[i] = BigInteger.valueOf(intPrimes[i]);
             }
         }
-
+        
         for (int i = 0; i < bigIntPrimes.length; i++) {
             if (number.mod(bigIntPrimes[i]).compareTo(BigInteger.ZERO) == 0) return false;
         }
@@ -96,10 +94,9 @@ public class Primes {
         // step 2: select a within in the range [1, n-2]
         // The test becomes more accurate the more different a values are tried
         BigInteger a = BigInteger.ZERO;
-        while(a.compareTo(BigInteger.ONE) <= 0) {
+        while (a.compareTo(BigInteger.ONE) <= 0) {
             a = new BigInteger(number.bitLength() - 1, random);
         }
-        System.out.println(a.toString());
 
         // step 3: first count x
         BigInteger x = a.modPow(d, number);

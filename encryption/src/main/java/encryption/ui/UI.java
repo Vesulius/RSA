@@ -1,4 +1,6 @@
-package encryption;
+package encryption.ui;
+
+import encryption.util.Logic;
 
 public class UI {
 

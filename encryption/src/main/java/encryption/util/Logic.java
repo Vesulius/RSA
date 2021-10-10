@@ -1,6 +1,10 @@
-package encryption;
+package encryption.util;
 
 import java.math.BigInteger;
+
+import encryption.math.Primes;
+import encryption.math.RSA;
+import encryption.util.FileIO;
 
 /**
  * 

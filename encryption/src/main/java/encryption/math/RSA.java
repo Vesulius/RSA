@@ -1,4 +1,4 @@
-package encryption;
+package encryption.math;
 
 import java.math.BigInteger;
 
@@ -13,8 +13,8 @@ import java.math.BigInteger;
  */
 public class RSA {
 
-    BigInteger[] publicKey = new BigInteger[2];
-    BigInteger[] privateKey = new BigInteger[2];
+    public BigInteger[] publicKey = new BigInteger[2];
+    public BigInteger[] privateKey = new BigInteger[2];
 
     /**
      * 

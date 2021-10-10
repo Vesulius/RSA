@@ -1,5 +1,10 @@
 package encryption;
 
+import encryption.math.Primes;
+import encryption.math.RSA;
+import encryption.ui.UI;
+import encryption.util.*;
+
 /**
  * 
  * Responsible for starting the application and creating the classes

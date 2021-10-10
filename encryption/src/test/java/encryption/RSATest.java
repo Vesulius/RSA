@@ -2,6 +2,7 @@ package encryption;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigInteger;
@@ -47,6 +48,7 @@ public class RSATest {
         assertTrue(keys[0] instanceof String);
         assertTrue(keys[1] instanceof String);
         assertTrue(keys[2] instanceof String);
+        assertNotEquals(keys[0], keys[1]);
 
         message = "Test message";
         encryptedMessage = rsa.encrypt(message, publicKey);

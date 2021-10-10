@@ -64,6 +64,4 @@ public class LogicTest {
         io.writeMessage(encrypted, "encrypted.txt");
         assertEquals(logic.decryptMessage(), message);
     }
-
-
 }

@@ -2,14 +2,14 @@
 <checkstyle version="8.37">
 <file name="/home/vesalouh/Documents/koulu/tiralabra/RSA/encryption/src/main/java/encryption/App.java">
 </file>
-<file name="/home/vesalouh/Documents/koulu/tiralabra/RSA/encryption/src/main/java/encryption/FileIO.java">
+<file name="/home/vesalouh/Documents/koulu/tiralabra/RSA/encryption/src/main/java/encryption/math/Primes.java">
 </file>
-<file name="/home/vesalouh/Documents/koulu/tiralabra/RSA/encryption/src/main/java/encryption/Logic.java">
+<file name="/home/vesalouh/Documents/koulu/tiralabra/RSA/encryption/src/main/java/encryption/math/RSA.java">
 </file>
-<file name="/home/vesalouh/Documents/koulu/tiralabra/RSA/encryption/src/main/java/encryption/Primes.java">
+<file name="/home/vesalouh/Documents/koulu/tiralabra/RSA/encryption/src/main/java/encryption/ui/UI.java">
 </file>
-<file name="/home/vesalouh/Documents/koulu/tiralabra/RSA/encryption/src/main/java/encryption/RSA.java">
+<file name="/home/vesalouh/Documents/koulu/tiralabra/RSA/encryption/src/main/java/encryption/util/FileIO.java">
 </file>
-<file name="/home/vesalouh/Documents/koulu/tiralabra/RSA/encryption/src/main/java/encryption/UI.java">
+<file name="/home/vesalouh/Documents/koulu/tiralabra/RSA/encryption/src/main/java/encryption/util/Logic.java">
 </file>
 </checkstyle>

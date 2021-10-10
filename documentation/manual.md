@@ -1,4 +1,4 @@
-#### Manual
+## Manual
 
 >Important! Currently project throws error if ran with 'gradle run' as the project uses console inputs!
 >Use the run function of your favorite IDE insted!

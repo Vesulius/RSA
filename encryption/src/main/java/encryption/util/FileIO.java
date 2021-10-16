@@ -4,6 +4,9 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 
 /**
@@ -15,13 +18,11 @@ import java.io.IOException;
  * 
  */
 public class FileIO {
-    // absolutePath is currently not working
-    private final String absolutePath = "C://home//vesalouh//Documents//koulu//tiralabra//RSA//encryption//messages";
     private final String relativePath = "messages";
 
     /**
      * 
-     * This method reads from given file and returns the content
+     * Reads from given file and returns the content
      * 
      * @param file filename in String
      * @return Text from the file as one String
@@ -32,14 +33,38 @@ public class FileIO {
 
     /**
      * 
-     * This method writes given message to given file
+     * Writes given message to given file
      * 
      * @param message message content in String
      * @param file filename in String
      * @return boolean value depending if message is written
      */
     public boolean writeMessage(String message, String file) {
+        createFile(pathMaker(file));
         return fileWriter(message, pathMaker(file));
+    }
+
+    /**
+     * 
+     * Creates file named after given name in folder
+     * 
+     * @param fileName String name of the file to be created
+     */
+    private void createFile(String fileName) {
+        try {
+            Path path = FileSystems.getDefault().getPath(relativePath);
+            Files.createDirectories(path);
+            File file = new File(fileName);
+            if (file.createNewFile()) {
+                System.out.println("File created");
+            } else {
+                System.out.println("File already existed");
+            }
+            
+        } catch (IOException ioException) {
+            System.out.println("An error occurred");
+            ioException.printStackTrace();
+        }
     }
 
     private String pathMaker(String file) {
@@ -50,6 +75,7 @@ public class FileIO {
         String fileContent = "";
         try {
             File file = new File(filePath);
+            file.createNewFile();
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();

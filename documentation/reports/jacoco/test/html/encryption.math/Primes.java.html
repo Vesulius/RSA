@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Primes.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">encryption</a> &gt; <a href="index.source.html" class="el_package">encryption.math</a> &gt; <span class="el_source">Primes.java</span></div><h1>Primes.java</h1><pre class="source lang-java linenums">package encryption.math;
+
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
+/**
+ * 
+ * Generateing probable prime numbers
+ * 
+ * Generating happens by generating random numbers until one passes the primality test
+ * 
+ */
+<span class="fc" id="L13">public class Primes {</span>
+
+    // all primes between 2 and 100
+<span class="fc" id="L16">    int[] intPrimes = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 };</span>
+    BigInteger[] bigIntPrimes; 
+
+    /**
+     * 
+     * Generates numbers until one passes the primality test
+     * 
+     * @param Integer bitsize of the starting seed
+     * 
+     * @return BigInteger number that has passed the test
+     * @return if no number passess, null
+     */
+    public BigInteger generate(int bits, int rounds, boolean divideByPrimes) {
+<span class="fc" id="L29">        SecureRandom random = new SecureRandom();</span>
+
+        while (true) {
+<span class="fc" id="L32">            BigInteger prime = new BigInteger(bits, random);</span>
+<span class="pc bpc" id="L33" title="1 of 4 branches missed.">            if (divideByPrimes &amp;&amp; !divideByPrimes(prime)) continue;</span>
+
+<span class="fc" id="L35">            boolean pass = true;</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            for (int i = 0; i &lt; rounds; i++) {</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">                if (!mrTest(prime, random)) {</span>
+<span class="fc" id="L38">                    pass = false;</span>
+                    continue;
+                }
+            }
+<span class="fc bfc" id="L42" title="All 2 branches covered.">            if (pass) return prime;</span>
+<span class="fc" id="L43">        }</span>
+    }
+
+    /**
+     * 
+     * Quick test to rule out composite (non-prime) numbers
+     * 
+     * &lt;p&gt;
+     * This is done dividing given number by primes from 2 to 100. If given number can be factored, it is not prime.
+     * This test cannot rule numbers as prime.
+     * &lt;/p&gt;
+     * 
+     * @param number BigInteger number to be tested
+     * @return boolean value. True if number isnt factored, false otherwise.
+     */
+    public boolean divideByPrimes(BigInteger number) {
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (bigIntPrimes == null) {</span>
+<span class="fc" id="L60">            bigIntPrimes = new BigInteger[intPrimes.length];</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">            for (int i = 0; i &lt; intPrimes.length; i++) {</span>
+<span class="fc" id="L62">                bigIntPrimes[i] = BigInteger.valueOf(intPrimes[i]);</span>
+            }
+        }
+        
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        for (int i = 0; i &lt; bigIntPrimes.length; i++) {</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            if (number.mod(bigIntPrimes[i]).compareTo(BigInteger.ZERO) == 0) return false;</span>
+        }
+<span class="fc" id="L69">        return true;</span>
+    }
+
+    /**
+     * 
+     * Tests given number for primality
+     * 
+     * &lt;p&gt;
+     * This is done useing Miller-Rabin primality test. Numbers that pass this test are
+     * propable primes, not quaranteed.
+     * &lt;/P&gt;
+     * 
+     * 
+     * @param prime BigInteger number to be tested for primality
+     * @return boolean value. True if test is passed, false otherwise
+     */
+    // This is Miller-Rabin primality test for finding propable primes
+    public boolean mrTest(BigInteger number, SecureRandom random) {
+        // step 1: find the terms that make 2^r * d + 1 = given number
+<span class="fc" id="L88">        BigInteger[] factors = factor(number);</span>
+<span class="fc" id="L89">        BigInteger r = factors[0];</span>
+<span class="fc" id="L90">        BigInteger d = factors[1];</span>
+
+        // step 2: select a within in the range [1, n-2]
+        // The test becomes more accurate the more different a values are tried
+<span class="fc" id="L94">        BigInteger a = BigInteger.ZERO;</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        while (a.compareTo(BigInteger.ONE) &lt;= 0) {</span>
+<span class="fc" id="L96">            a = new BigInteger(number.bitLength() - 1, random);</span>
+        }
+
+        // step 3: first count x
+<span class="fc" id="L100">        BigInteger x = a.modPow(d, number);</span>
+        // if x = 1 or -1 then given number is propably truly prime
+<span class="pc bpc" id="L102" title="1 of 4 branches missed.">        if (x.intValue() == 1 || x.intValue() == -1) return true;</span>
+
+        // continue this prosess but now only if x = 1 is given prime propably truly prime
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        for (int i = 0; i &lt; r.intValueExact(); i++) {</span>
+<span class="fc" id="L106">            x = x.modPow(BigInteger.TWO, number);</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">            if (x.compareTo(BigInteger.ONE) == 0) return true;</span>
+        }
+
+<span class="fc" id="L110">        return false;</span>
+    }
+
+    /**
+     * 
+     * Finds terms r and d from 2^r * d + 1 = given number
+     * 
+     * &lt;p&gt;
+     * Terms are found by dividing number by two until remainder is cannot be divided 
+     * &lt;/p&gt;
+     * 
+     * @param number to be factored
+     * @return terms as Biginteger array
+     */
+    // find terms r and d from 2^r * d + 1 = given number
+    public BigInteger[] factor(BigInteger number) {
+<span class="fc" id="L126">        int r = 0;</span>
+<span class="fc" id="L127">        number = number.subtract(BigInteger.ONE);</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        while (number.mod(BigInteger.TWO).compareTo(BigInteger.ZERO) == 0) {</span>
+<span class="fc" id="L129">            number = number.divide(BigInteger.TWO);</span>
+<span class="fc" id="L130">            r++;</span>
+        }
+
+<span class="fc" id="L133">        BigInteger[] factors = new BigInteger[2];</span>
+<span class="fc" id="L134">        factors[0] = new BigInteger(String.valueOf(r));</span>
+<span class="fc" id="L135">        factors[1] = number;</span>
+<span class="fc" id="L136">        return factors;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

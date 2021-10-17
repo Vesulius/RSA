@@ -7,4 +7,5 @@ Week     | time | target |
 3 | 15h | Fixing tests and creating prime generator |
 4 | 12h | Connected the seperate classes and added ui class |
 5 | 8h | Several minor improvements and documentation |
-Total | 60h   |  |
+5 | 6h | Some fixes and mostly going back and fourth on performance testing |
+Total | 66h   |  |

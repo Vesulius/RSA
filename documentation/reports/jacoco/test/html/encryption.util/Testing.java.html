@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Testing.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">encryption</a> &gt; <a href="index.source.html" class="el_package">encryption.util</a> &gt; <span class="el_source">Testing.java</span></div><h1>Testing.java</h1><pre class="source lang-java linenums">package encryption.util;
+
+import encryption.math.Primes;
+
+public class Testing {
+
+<span class="fc" id="L7">    FileIO io = new FileIO();</span>
+<span class="fc" id="L8">    Primes primes = new Primes();</span>
+
+
+<span class="fc" id="L11">    public Testing(FileIO io, Primes primes) {</span>
+<span class="fc" id="L12">        this.io = io;</span>
+<span class="fc" id="L13">        this.primes = primes;</span>
+<span class="fc" id="L14">    }</span>
+
+    /**
+     * 
+     * Tests Miller-Rabin primality test with different settings
+     * 
+     * &lt;p&gt;
+     * Uses multiple different inputs for mr-test and prints chart with average time in milliseconds
+     * &lt;/p&gt;
+     * 
+     */
+
+    public void test() {
+        // testing 1024 bit prime number generation
+        // 1024 bit are used int the program for key generation
+
+        // Lets count the averages of 100 tests as there is a lot of randomness in prime
+        // generation
+
+<span class="nc" id="L33">        int differendSizes = 5;</span>
+<span class="nc" id="L34">        int differendrounds = 3;</span>
+
+<span class="nc" id="L36">        Double[][] results = new Double[differendrounds][differendSizes];</span>
+
+        // lets test different size prime generation
+        // lets test 128, 256, 512 1024 and 2048 bit primes 
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        for (int y = 0; y &lt; differendrounds; y++) {</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            for (int x = 0; x &lt; differendSizes; x++) {</span>
+<span class="nc" id="L43">                int size = (int) Math.pow(2.0, 1.0 * (x + 7));</span>
+<span class="nc" id="L44">                int rounds = y + 1;</span>
+<span class="nc" id="L45">                results[y][x] = mrTestRounds(size, rounds, 10, true);</span>
+            }
+        }
+
+<span class="nc" id="L49">        System.out.println(&quot;Chart for average ms for generaiting prime with following settings&quot;);</span>
+<span class="nc" id="L50">        System.out.println(&quot;Y-axel for different Miller-Rabin test rounds: 1, 2 and 3 rounds&quot;);</span>
+<span class="nc" id="L51">        System.out.println(&quot;X-axel for different bit sizes: 128, 256, 512 1024 and 2048 bits\n&quot;);</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        for (int i = 0; i &lt; results.length; i++) {</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            for (int j = 0; j &lt; results[0].length; j++) {</span>
+<span class="nc" id="L54">                System.out.print(results[i][j] + &quot; &quot;);</span>
+            }
+<span class="nc" id="L56">            System.out.println();</span>
+        }
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * 
+     * Tests average time to generate prime number
+     * 
+     * &lt;p&gt;
+     * Repeatedly generates primes by given premises until returning average time.
+     * Prime generation is inherently very random and higher the testItereations the more accurate result.
+     * &lt;/p&gt;
+     * 
+     * @param byteSize int size of genereated primes
+     * @param rmRounds int rounds of checking Miller-Rabin primality test
+     * @param testIterations int amount of repeted tests
+     * @param divideByPrimes boolean if divideByPrimes is used to quicken the results
+     * @return double average generation time in milliseconds.
+     */
+    public double mrTestRounds(int byteSize, int rmRounds, int testIterations, boolean divideByPrimes) {
+<span class="nc" id="L76">        long sum = 0;</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        for (int i = 0; i &lt; testIterations; i++) {</span>
+<span class="nc" id="L78">            long start = System.currentTimeMillis();</span>
+<span class="nc" id="L79">            primes.generate(byteSize, rmRounds, divideByPrimes);</span>
+<span class="nc" id="L80">            long end = System.currentTimeMillis();</span>
+<span class="nc" id="L81">            sum += end - start;</span>
+        }
+<span class="nc" id="L83">        double average = (1.0 * sum) / testIterations;</span>
+<span class="nc" id="L84">        return average;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

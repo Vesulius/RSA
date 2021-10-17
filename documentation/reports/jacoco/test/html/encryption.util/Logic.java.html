@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Logic.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">encryption</a> &gt; <a href="index.source.html" class="el_package">encryption.util</a> &gt; <span class="el_source">Logic.java</span></div><h1>Logic.java</h1><pre class="source lang-java linenums">package encryption.util;
+
+import java.math.BigInteger;
+
+import encryption.math.Primes;
+import encryption.math.RSA;
+
+/**
+ * 
+ * Main logic for the program
+ * 
+ * &lt;p&gt;
+ * Responsible for connecting the ui to the encryption service and file i/o
+ * &lt;/P&gt;
+ * 
+ */
+public class Logic {
+    
+    private RSA rsa;
+    private Primes primes;
+    private FileIO io;
+    private Testing test;
+
+<span class="fc" id="L24">    public Logic(RSA rsa, Primes primes, FileIO io, Testing test) {</span>
+<span class="fc" id="L25">        this.rsa = rsa;</span>
+<span class="fc" id="L26">        this.primes = primes;</span>
+<span class="fc" id="L27">        this.io = io;</span>
+<span class="fc" id="L28">        this.test = test;</span>
+<span class="fc" id="L29">    }</span>
+    
+    /**
+     * 
+     * Generates the keys needed for encyption and decryption
+     * 
+     * @return String list of generated key parts
+     */
+    public String[] generate() {
+<span class="fc" id="L38">        BigInteger p = primes.generate(1024, 10, true);</span>
+<span class="fc" id="L39">        BigInteger q = primes.generate(1024, 10, true);</span>
+<span class="fc" id="L40">        BigInteger e = primes.generate(16, 10, true);</span>
+
+<span class="fc" id="L42">        String[] keys = rsa.generateKeys(p, q, e);</span>
+
+<span class="fc" id="L44">        io.writeMessage(keys[0] + &quot;\n&quot; + keys[2], &quot;public_key.txt&quot;);</span>
+<span class="fc" id="L45">        io.writeMessage(keys[1] + &quot;\n&quot; + keys[2], &quot;.private_key.txt&quot;);</span>
+
+<span class="fc" id="L47">        return keys;</span>
+    }
+    
+    /**
+     * 
+     * Encrypts given message and saves the encypted message to file
+     * 
+     * @param message String message to be encrypted
+     * @return encrypted message as String
+     */
+    public String encyptMessage(String message) {
+<span class="fc" id="L58">        String[] key = io.readMessage(&quot;public_key.txt&quot;).split(&quot;\n&quot;);</span>
+<span class="fc" id="L59">        String encrypted = rsa.encrypt(message, key);</span>
+<span class="fc" id="L60">        io.writeMessage(encrypted, &quot;encrypted.txt&quot;);</span>
+<span class="fc" id="L61">        return encrypted;</span>
+    } 
+
+    /**
+     * 
+     * Reads the encrypted message from file and decrypts it
+     * 
+     * @return String message decrypted
+     */
+    public String decryptMessage() {
+<span class="fc" id="L71">        String[] key = io.readMessage(&quot;.private_key.txt&quot;).split(&quot;\n&quot;);</span>
+<span class="fc" id="L72">        String encypted = io.readMessage(&quot;encrypted.txt&quot;);</span>
+<span class="fc" id="L73">        return rsa.decrypt(encypted, key);</span>
+    }
+
+    public void test() {
+<span class="nc" id="L77">        test.test();</span>
+<span class="nc" id="L78">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -29,7 +29,7 @@ public class FileIOTest {
     @BeforeAll
     public void setUp() throws IOException {
         io = new FileIO();
-        file = new File("messages" + File.separator + "test_message.txt");
+        file = new File("resources" + File.separator + "test_message.txt");
 
         if (!file.exists()) {
             file.createNewFile();

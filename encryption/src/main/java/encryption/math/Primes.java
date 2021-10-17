@@ -25,10 +25,8 @@ public class Primes {
      * @return BigInteger number that has passed the test
      * @return if no number passess, null
      */
-    public BigInteger generate(int bits) {
+    public BigInteger generate(int bits, int rounds, boolean divideByPrimes) {
         SecureRandom random = new SecureRandom();
-        boolean divideByPrimes = true;
-        int rounds = 10;
 
         while (true) {
             BigInteger prime = new BigInteger(bits, random);

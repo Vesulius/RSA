@@ -21,6 +21,7 @@ public class LogicTest {
     RSA rsa;
     FileIO io;
     Primes primes;
+    Testing test;
     String[] publicKey;
     String[] privateKey;
 
@@ -29,7 +30,8 @@ public class LogicTest {
         primes = new Primes();
         rsa = new RSA();
         io = new FileIO();
-        logic = new Logic(rsa, primes, io);
+        test = new Testing(io, primes);
+        logic = new Logic(rsa, primes, io, test);
     }
 
     @BeforeEach

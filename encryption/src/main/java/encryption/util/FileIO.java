@@ -52,15 +52,16 @@ public class FileIO {
      */
     private void createFile(String fileName) {
         try {
+            // creates resources directory if it dosent exist
             Path path = FileSystems.getDefault().getPath(relativePath);
             Files.createDirectories(path);
+
             File file = new File(fileName);
             if (file.createNewFile()) {
                 System.out.println("File created");
             } else {
                 System.out.println("File already existed");
             }
-            
         } catch (IOException ioException) {
             System.out.println("An error occurred");
             ioException.printStackTrace();

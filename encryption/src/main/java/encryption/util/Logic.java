@@ -19,11 +19,13 @@ public class Logic {
     private RSA rsa;
     private Primes primes;
     private FileIO io;
+    private Testing test;
 
-    public Logic(RSA rsa, Primes primes, FileIO io) {
+    public Logic(RSA rsa, Primes primes, FileIO io, Testing test) {
         this.rsa = rsa;
         this.primes = primes;
         this.io = io;
+        this.test = test;
     }
     
     /**
@@ -33,9 +35,9 @@ public class Logic {
      * @return String list of generated key parts
      */
     public String[] generate() {
-        BigInteger p = primes.generate(1024);
-        BigInteger q = primes.generate(1024);
-        BigInteger e = primes.generate(16);
+        BigInteger p = primes.generate(1024, 10, true);
+        BigInteger q = primes.generate(1024, 10, true);
+        BigInteger e = primes.generate(16, 10, true);
 
         String[] keys = rsa.generateKeys(p, q, e);
 
@@ -69,5 +71,9 @@ public class Logic {
         String[] key = io.readMessage(".private_key.txt").split("\n");
         String encypted = io.readMessage("encrypted.txt");
         return rsa.decrypt(encypted, key);
+    }
+
+    public void test() {
+        test.test();
     }
 }

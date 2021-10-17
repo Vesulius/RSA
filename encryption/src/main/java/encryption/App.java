@@ -15,7 +15,8 @@ public class App {
         Primes primes = new Primes();
         RSA rsa = new RSA();
         FileIO io = new FileIO();
-        Logic logic = new Logic(rsa, primes, io);
+        Testing test = new Testing(io, primes);
+        Logic logic = new Logic(rsa, primes, io, test);
         UI ui = new UI(logic);
         ui.start();
     }

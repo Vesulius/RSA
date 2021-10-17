@@ -24,10 +24,8 @@ public class UI {
         
         while (true) {
             instuctions();
-            String task = readUserInput();
+            String task = readUserInput().toLowerCase();
             
-            // String task  = System.console().readLine();
-            System.out.println("You wrote command '" + task + "'\n");
             if (task.equals("generate") || task.equals("g")) {
                 String[] keys = logic.generate();
                 System.out.println("New keys generated\n");
@@ -38,7 +36,9 @@ public class UI {
             } else if (task.equals("write") || task.equals("w")) {
                 writeMessage();
             } else if (task.equals("read") || task.equals("r")) {
-                readMessage();
+                readMessage();;
+            } else if (task.equals("test") || task.equals("t")) {
+                test();
             } else if (task.equals("quit") || task.equals("q")) {
                 System.out.println("Goodbye!");
                 break;
@@ -51,12 +51,26 @@ public class UI {
 
     private String readUserInput() {
         try {
-            return reader.readLine();
+            String userInput = reader.readLine();
+            System.out.println("You wrote command '" + userInput + "'\n");
+            return userInput;
         } catch (IOException e) {
             System.out.println("An error occurred");
             e.printStackTrace();
         }
         return "";
+    }
+
+    private void test() {
+        System.out.println("This can take several minutes!\n");
+        System.out.println("Continue yes/no?");
+        String yOrN = readUserInput().toLowerCase();
+        if (yOrN.equals("yes") || yOrN.equals("y")) {
+            logic.test();
+        } else {
+            return;
+        }
+
     }
 
     private void writeMessage() {
@@ -77,6 +91,7 @@ public class UI {
         System.out.println("To generate keys, write 'generate'");
         System.out.println("To encypt message to file, write 'write'");
         System.out.println("To translate encypted message from file, write 'read'");
+        System.out.println("To test prime generatinon, write 'test'");
         System.out.println("To quit, write 'quit'");
         System.out.println("\n– – –");
     }

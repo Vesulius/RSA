@@ -1,28 +1,39 @@
 package encryption.ui;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import encryption.util.Logic;
 
 public class UI {
 
     Logic logic;
+    BufferedReader reader;
 
     public UI(Logic logic) {
         this.logic = logic;
     }
 
     public void start() {
+        reader = new BufferedReader(new InputStreamReader(System.in));
+        
+        System.out.println("\n– – –\n");
         System.out.println("Hello, this is RSA file encryption servece");
         System.out.println("\n– – –\n");
+        
         while (true) {
             instuctions();
-            String task  = System.console().readLine();
+            String task = readUserInput();
+            
+            // String task  = System.console().readLine();
             System.out.println("You wrote command '" + task + "'\n");
             if (task.equals("generate") || task.equals("g")) {
                 String[] keys = logic.generate();
                 System.out.println("New keys generated\n");
-                System.out.println("PRIVATE KEY:\n");
+                System.out.println("PUBLIC KEY:\n");
                 System.out.println(keys[0] + "\n\n" + keys[2]);
-                System.out.println("\nPUBLIC KEY:\n");
+                System.out.println("\nPRIVATE KEY:\n");
                 System.out.println(keys[1] + "\n\n" + keys[2]);
             } else if (task.equals("write") || task.equals("w")) {
                 writeMessage();
@@ -38,9 +49,20 @@ public class UI {
         }
     }
 
+    private String readUserInput() {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            System.out.println("An error occurred");
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     private void writeMessage() {
         System.out.println("Write message that will be encrypted");
-        String message = System.console().readLine();
+        String message = readUserInput();
+        
         String encrypted = logic.encyptMessage(message);
         System.out.println("Encypted message reads: " + encrypted);
     }

@@ -18,7 +18,7 @@ import java.nio.file.Path;
  * 
  */
 public class FileIO {
-    private final String relativePath = "messages";
+    private final String relativePath = "resources";
 
     /**
      * 

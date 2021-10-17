@@ -20,6 +20,10 @@ test {
     useJUnitPlatform()
 }
 
+run {
+    standardInput = System.in
+}
+
 jar {
     manifest {
         attributes 'Main-Class': 'encryption.App'

@@ -13,10 +13,11 @@ This repository is student project for the course *data structures and algorithm
 [Hours report](https://github.com/Vesulius/RSA/tree/master/documentation/hour_report.md)
 
 
-#### Weekly raports
+#### Weekly reports
 
 * [Week 1](https://github.com/Vesulius/RSA/tree/master/documentation/week_1.md)
 * [Week 2](https://github.com/Vesulius/RSA/tree/master/documentation/week_2.md)
 * [Week 3](https://github.com/Vesulius/RSA/tree/master/documentation/week_3.md)
 * [Week 4](https://github.com/Vesulius/RSA/tree/master/documentation/week_4.md)
 * [Week 5](https://github.com/Vesulius/RSA/tree/master/documentation/week_5.md)
+* [Week 6](https://github.com/Vesulius/RSA/tree/master/documentation/week_6.md)

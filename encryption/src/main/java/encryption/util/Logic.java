@@ -1,6 +1,7 @@
 package encryption.util;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 
 import encryption.math.Primes;
 import encryption.math.RSA;
@@ -15,7 +16,7 @@ import encryption.math.RSA;
  * 
  */
 public class Logic {
-    
+
     private RSA rsa;
     private Primes primes;
     private FileIO io;
@@ -27,7 +28,7 @@ public class Logic {
         this.io = io;
         this.test = test;
     }
-    
+
     /**
      * 
      * Generates the keys needed for encyption and decryption
@@ -46,7 +47,7 @@ public class Logic {
 
         return keys;
     }
-    
+
     /**
      * 
      * Encrypts given message and saves the encypted message to file
@@ -59,7 +60,7 @@ public class Logic {
         String encrypted = rsa.encrypt(message, key);
         io.writeMessage(encrypted, "encrypted.txt");
         return encrypted;
-    } 
+    }
 
     /**
      * 
@@ -73,7 +74,35 @@ public class Logic {
         return rsa.decrypt(encypted, key);
     }
 
-    public void test() {
-        test.test();
+    /**
+     * 
+     * Runs custom tests for prime generation
+     * 
+     * <p>
+     * Tests several ascpects of prime generation. See Ui class for options
+     * </p>
+     * 
+     * @param options ArrayList<String> secifing options
+     */
+    public void test(ArrayList<String> options) {
+        try {
+            switch (options.get(0)) {
+                case "timing":
+                    test.mrTestTiming(Integer.valueOf(options.get(1)), Integer.valueOf(options.get(2)), options.get(3));
+                    break;
+                case "attempts":
+                    test.averageNumberOfAttempts(Integer.valueOf(options.get(1)), Integer.valueOf(options.get(2)),
+                        options.get(3), Integer.valueOf(options.get(4)));
+                    break;
+                case "generation":
+                    test.primeGeneration(Integer.valueOf(options.get(1)), Integer.valueOf(options.get(2)),
+                        options.get(3), Integer.valueOf(options.get(4)), options.get(5).equals("y"));
+                    break;
+                default:
+                    System.out.println("Bad option");
+            }
+        } catch (Exception e) {
+            System.out.println("Bad input");
+        } 
     }
 }

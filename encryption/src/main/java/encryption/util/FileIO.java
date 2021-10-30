@@ -68,6 +68,23 @@ public class FileIO {
         }
     }
 
+    /**
+     * 
+     * Delete file
+     * 
+     * @param file String name of the file to be deleted
+     */    
+    public void deleteFile(String file) {
+        try {
+            File toBeDeleted = new File(pathMaker(file));
+            toBeDeleted.createNewFile();
+            toBeDeleted.delete();
+        } catch (IOException ioException) {
+            System.out.println("An error occurred");
+            ioException.printStackTrace();
+        }
+    }
+
     private String pathMaker(String file) {
         return relativePath + File.separator + file;
     }

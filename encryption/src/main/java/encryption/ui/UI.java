@@ -3,6 +3,7 @@ package encryption.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import encryption.util.Logic;
 
@@ -17,15 +18,15 @@ public class UI {
 
     public void start() {
         reader = new BufferedReader(new InputStreamReader(System.in));
-        
-        System.out.println("\n– – –\n");
+
+        breakMark();
         System.out.println("Hello, this is RSA file encryption servece");
-        System.out.println("\n– – –\n");
-        
+        breakMark();
+
         while (true) {
             instuctions();
-            String task = readUserInput().toLowerCase();
-            
+            String task = readUserInput();
+
             if (task.equals("generate") || task.equals("g")) {
                 String[] keys = logic.generate();
                 System.out.println("New keys generated\n");
@@ -36,7 +37,8 @@ public class UI {
             } else if (task.equals("write") || task.equals("w")) {
                 writeMessage();
             } else if (task.equals("read") || task.equals("r")) {
-                readMessage();;
+                readMessage();
+                ;
             } else if (task.equals("test") || task.equals("t")) {
                 test();
             } else if (task.equals("quit") || task.equals("q")) {
@@ -44,8 +46,8 @@ public class UI {
                 break;
             } else {
                 System.out.println("Bad input");
-            } 
-            System.out.println("\n– – –\n");
+            }
+            breakMark();
         }
     }
 
@@ -53,7 +55,7 @@ public class UI {
         try {
             String userInput = reader.readLine();
             System.out.println("You wrote command '" + userInput + "'\n");
-            return userInput;
+            return userInput.toLowerCase();
         } catch (IOException e) {
             System.out.println("An error occurred");
             e.printStackTrace();
@@ -62,21 +64,39 @@ public class UI {
     }
 
     private void test() {
-        System.out.println("This can take several minutes!\n");
-        System.out.println("Continue yes/no?");
-        String yOrN = readUserInput().toLowerCase();
-        if (yOrN.equals("yes") || yOrN.equals("y")) {
-            logic.test();
-        } else {
+        ArrayList<String> options = new ArrayList<>();
+        System.out.println("What are you testing?");
+        breakMark();
+        
+        System.out.println("Options: timing, attempts, generation");
+        options.add(readUserInput());
+        System.out.println("Give number: bytes");
+        options.add(readUserInput());
+        System.out.println("Give number: testRounds");
+        options.add(readUserInput());
+        System.out.println("Give name: savefileName. Leave blank for no save");
+        options.add(readUserInput());
+
+        if (options.get(0).equals("timing")) {
+            logic.test(options);
             return;
         }
-
+        System.out.println("Give number: mr-Rounds");
+        options.add(readUserInput());
+        
+        if (options.get(0).equals("attempts")) {
+            logic.test(options);
+            return;
+        }
+        System.out.println("Give y/n: divideByPirmes");
+        options.add(readUserInput());
+        logic.test(options);
     }
 
     private void writeMessage() {
         System.out.println("Write message that will be encrypted");
         String message = readUserInput();
-        
+
         String encrypted = logic.encyptMessage(message);
         System.out.println("Encypted message reads: " + encrypted);
     }
@@ -94,5 +114,9 @@ public class UI {
         System.out.println("To test prime generatinon, write 'test'");
         System.out.println("To quit, write 'quit'");
         System.out.println("\n– – –");
+    }
+
+    private void breakMark() {
+        System.out.println("\n– – –\n");
     }
 }

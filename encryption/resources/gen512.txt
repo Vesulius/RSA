@@ -1,0 +1,3 @@
+primeGeneration:
+bits: 512 testRounds: 10 mrRounds: 5
+[2.0, 48.0, 41.0, 16.0, 11.0, 6.0, 47.0, 3.0, 13.0, 27.0]

@@ -1,59 +1,142 @@
 package encryption.util;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Arrays;
+
 import encryption.math.Primes;
 
+/**
+ * 
+ * Tests several aspects of Miller-Rabin primality test for timing and variance
+ * 
+ */
 public class Testing {
 
-    FileIO io = new FileIO();
-    Primes primes = new Primes();
+    FileIO io;
+    Primes primes;
+    Timer timer;
+    SecureRandom rand;
 
 
     public Testing(FileIO io, Primes primes) {
         this.io = io;
         this.primes = primes;
+        this.timer = new Timer();
+        this.rand = new SecureRandom();
     }
 
     /**
      * 
-     * Tests Miller-Rabin primality test with different settings
+     * Tests Miller-Rabin primality test timing
      * 
      * <p>
-     * Uses multiple different inputs for mr-test and prints chart with average time in milliseconds
+     * Timing for both primes and composites are tested seperately<br>
+     * Test creates list of primes and list of nonprimes size of given rounds and tests the time to calculate 
+     * the mr-test for each value
      * </p>
      * 
+     * @param bits integer bits size of tested values
+     * @param rounds integer rounds of testing different values
+     * @param save String file name if you want to save invidual results
      */
+    public void mrTestTiming(int bits, int testRounds, String save) {
+        BigInteger[] primesList = new BigInteger[testRounds];
+        BigInteger[] compositeList = new BigInteger[testRounds];
 
-    public void test() {
-        // testing 1024 bit prime number generation
-        // 1024 bit are used int the program for key generation
-
-        // Lets count the averages of 100 tests as there is a lot of randomness in prime
-        // generation
-
-        int differendSizes = 5;
-        int differendrounds = 3;
-
-        Double[][] results = new Double[differendrounds][differendSizes];
-
-        // lets test different size prime generation
-        // lets test 128, 256, 512 1024 and 2048 bit primes 
-
-        for (int y = 0; y < differendrounds; y++) {
-            for (int x = 0; x < differendSizes; x++) {
-                int size = (int) Math.pow(2.0, 1.0 * (x + 7));
-                int rounds = y + 1;
-                results[y][x] = mrTestRounds(size, rounds, 10, true);
-            }
+        double[] primesResults = new double[testRounds];
+        double[] compositeResults = new double[testRounds];
+        
+        // fill both lists beforehand for more accurate timing
+        for (int i = 0; i < testRounds; i++) {
+            primesList[i] = BigInteger.probablePrime(bits, rand);
+            do {
+                compositeList[i] = new BigInteger(bits, rand);
+            } while (!primes.mrTest(compositeList[i], rand));
         }
 
-        System.out.println("Chart for average ms for generaiting prime with following settings");
-        System.out.println("Y-axel for different Miller-Rabin test rounds: 1, 2 and 3 rounds");
-        System.out.println("X-axel for different bit sizes: 128, 256, 512 1024 and 2048 bits\n");
-        for (int i = 0; i < results.length; i++) {
-            for (int j = 0; j < results[0].length; j++) {
-                System.out.print(results[i][j] + " ");
+        timer.start();
+        for (int i = 0; i < testRounds; i++) {
+            primes.mrTest(primesList[1], rand);
+            primesResults[i] = timer.lap();
+        }
+        System.out.println("Average time of " + testRounds + " rounds to test prime number: " + timer.stop());
+
+        timer.start();
+        for (int i = 0; i < testRounds; i++) {
+            primes.mrTest(compositeList[1], rand);
+            compositeResults[i] = timer.lap();
+        }
+        System.out.println("Average time of " + testRounds + " rounds to test composite number: " + timer.stop());
+
+        // save invidual results to a file incase save file specified
+        if (!save.isEmpty()) {
+            String saved = "mr-test:\n"
+                + "bits: " + bits + " rounds: " + testRounds + " results in ms"
+                + "\nprimes:\n"
+                + Arrays.toString(primesResults)
+                + "\ncomposites:\n"
+                + Arrays.toString(compositeResults);
+            io.writeMessage(saved, save + ".txt");
+        }
+    }
+  
+    
+    
+    /**
+     * 
+     * Gives the average number of attempts to randomly guess a prime number
+     * 
+     * <p>
+     * Randomly guesses prime numbers from given bitsize range until one passes
+     * given rounds of Miller-Rabin-primality test.
+     * 
+     * can save the invidual results in file
+     * </p>
+     * 
+     * @param bits   integer bite size of tested BigInteger
+     * @param testRounds integer rounds of miller-rabin-tests
+     * @param mrRounds integer rounds of testing
+     * @param save String file name if you want to save invidual results
+     * @return double 
+     */
+    public void averageNumberOfAttempts(int bits, int testRounds, String save, int mrRounds) {
+        double sum = 0;
+        int[] results = new int[testRounds];
+        for (int i = 0; i < testRounds; i++) {
+            int attempts = numberOfAttempts(bits, mrRounds);
+            results[i] = attempts;
+            sum += attempts;
+        }
+
+        // save invidual results to a file incase save file specified
+        if (!save.isEmpty()) {
+            String saved = "numberOfAttempts:\n"
+                + "bits: " + bits + " testRounds: " + testRounds + " mrRounds: " + mrRounds + "\n"
+                + Arrays.toString(results);
+            io.writeMessage(saved, save + ".txt");
+        }
+
+        System.out.println("Average number of attempts: " +  (sum / testRounds));
+    }
+    
+    private int numberOfAttempts(int bits, int rounds) {
+        SecureRandom random = new SecureRandom();
+        int attempts = 0;
+        while (true) {
+            attempts++;
+            BigInteger prime = new BigInteger(bits, random);
+            if (!primes.divideByPrimes(prime)) {
+                continue;
             }
-            System.out.println();
+            boolean pass = true;
+            for (int i = 0; i < rounds; i++) {
+                if (!primes.mrTest(prime, random)) {
+                    pass = false;
+                    continue;
+                }
+            }
+            if (pass) return attempts;
         }
     }
 
@@ -62,25 +145,30 @@ public class Testing {
      * Tests average time to generate prime number
      * 
      * <p>
-     * Repeatedly generates primes by given premises until returning average time.
+     * Repeatedly generates primes by given premises until returning average time. <br>
      * Prime generation is inherently very random and higher the testItereations the more accurate result.
      * </p>
      * 
-     * @param byteSize int size of genereated primes
-     * @param rmRounds int rounds of checking Miller-Rabin primality test
-     * @param testIterations int amount of repeted tests
+     * @param bits int size of genereated primes
+     * @param testRounds int amount of repeted tests
+     * @param mrRounds int rounds of checking Miller-Rabin primality test
      * @param divideByPrimes boolean if divideByPrimes is used to quicken the results
      * @return double average generation time in milliseconds.
      */
-    public double mrTestRounds(int byteSize, int rmRounds, int testIterations, boolean divideByPrimes) {
-        long sum = 0;
-        for (int i = 0; i < testIterations; i++) {
-            long start = System.currentTimeMillis();
-            primes.generate(byteSize, rmRounds, divideByPrimes);
-            long end = System.currentTimeMillis();
-            sum += end - start;
+    public void primeGeneration(int bits, int testRounds, String save, int mrRounds, boolean divideByPrimes) {
+        double[] results = new double[testRounds];
+        for (int i = 0; i < testRounds; i++) {
+            timer.start();
+            primes.generate(bits, mrRounds, divideByPrimes);
+            results[i] = timer.lap();
         }
-        double average = (1.0 * sum) / testIterations;
-        return average;
+        
+        System.out.println("Average time to generate: " + timer.stop());
+        if (!save.isEmpty()) {
+            String saved = "prime generation:\n" 
+                + "bits: " + bits + " testRounds: " + testRounds + " mrRounds: " + mrRounds + " results in ms\n" 
+                + Arrays.toString(results);
+            io.writeMessage(saved, save + ".txt");
+        }
     }
 }

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -84,5 +85,11 @@ public class FileIOTest {
             content = content + data;
         }
         assertEquals("This is test", content);
+    }
+
+    @Test
+    public void deletingFileIsDeleted() {
+        io.deleteFile("test_message.txt");
+        assertFalse(file.delete());
     }
 }

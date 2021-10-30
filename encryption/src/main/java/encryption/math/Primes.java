@@ -49,7 +49,7 @@ public class Primes {
      * 
      * <p>
      * This is done dividing given number by primes from 2 to 100. If given number can be factored, it is not prime.
-     * This test cannot rule numbers as prime.
+     * This test can not rule numbers as prime.
      * </p>
      * 
      * @param number BigInteger number to be tested

@@ -1,10 +1,13 @@
-package encryption.util;
+package encryption;
+
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 
 import encryption.math.Primes;
 import encryption.math.RSA;
+import encryption.util.FileIO;
+import encryption.util.Testing;
 
 /**
  * 
@@ -87,14 +90,14 @@ public class Logic {
     public void test(ArrayList<String> options) {
         try {
             switch (options.get(0)) {
-                case "timing":
+                case "timing": case "t":
                     test.mrTestTiming(Integer.valueOf(options.get(1)), Integer.valueOf(options.get(2)), options.get(3));
                     break;
-                case "attempts":
+                case "attempts": case "a":
                     test.averageNumberOfAttempts(Integer.valueOf(options.get(1)), Integer.valueOf(options.get(2)),
                         options.get(3), Integer.valueOf(options.get(4)));
                     break;
-                case "generation":
+                case "generation": case "g":
                     test.primeGeneration(Integer.valueOf(options.get(1)), Integer.valueOf(options.get(2)),
                         options.get(3), Integer.valueOf(options.get(4)), options.get(5).equals("y"));
                     break;

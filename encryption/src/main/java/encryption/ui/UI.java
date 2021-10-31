@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import encryption.util.Logic;
+import encryption.Logic;
 
 public class UI {
 
@@ -77,14 +77,14 @@ public class UI {
         System.out.println("Give name: savefileName. Leave blank for no save");
         options.add(readUserInput());
 
-        if (options.get(0).equals("timing")) {
+        if (options.get(0).equals("timing") || options.get(0).equals("t")) {
             logic.test(options);
             return;
         }
         System.out.println("Give number: mr-Rounds");
         options.add(readUserInput());
         
-        if (options.get(0).equals("attempts")) {
+        if (options.get(0).equals("attempts") || options.get(0).equals("a")) {
             logic.test(options);
             return;
         }

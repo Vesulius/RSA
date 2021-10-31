@@ -75,7 +75,7 @@ public class RSATest {
         BigInteger random1 = new BigInteger(1024, random);
         BigInteger random2 = new BigInteger(1024, random);
 
-        String[] fakeKey =new String[2];
+        String[] fakeKey = new String[2];
         fakeKey[0] = random1.toString();
         fakeKey[1] = random2.toString();
 

@@ -52,30 +52,35 @@ public class Testing {
             primesList[i] = BigInteger.probablePrime(bits, rand);
             do {
                 compositeList[i] = new BigInteger(bits, rand);
-            } while (!primes.mrTest(compositeList[i], rand));
+            } while (primes.mrTest(compositeList[i], rand));
         }
+
+        double evaluatingPrimes = 0;
+        double evaluatingComposites = 0;
 
         timer.start();
         for (int i = 0; i < testRounds; i++) {
-            primes.mrTest(primesList[1], rand);
+            if (primes.mrTest(primesList[1], rand)) evaluatingPrimes++;
             primesResults[i] = timer.lap();
         }
-        System.out.println("Average time of " + testRounds + " rounds to test prime number: " + timer.stop());
+        double averagePrime = timer.stop();
+        System.out.println("Average time of " + testRounds + " rounds to test prime number: " + averagePrime);
 
         timer.start();
         for (int i = 0; i < testRounds; i++) {
-            primes.mrTest(compositeList[1], rand);
+            if (!primes.mrTest(compositeList[1], rand)) evaluatingComposites++;
             compositeResults[i] = timer.lap();
         }
-        System.out.println("Average time of " + testRounds + " rounds to test composite number: " + timer.stop());
+        double averageComposite = timer.stop();
+        System.out.println("Average time of " + testRounds + " rounds to test composite number: " + averageComposite);
 
         // save invidual results to a file incase save file specified
         if (!save.isEmpty()) {
             String saved = "mr-test:\n"
                 + "bits: " + bits + " rounds: " + testRounds + " results in ms"
-                + "\nprimes:\n"
+                + "\nAverage time for primes: " + averagePrime + " prime accuracy: " + evaluatingPrimes / testRounds + " all data:\n"
                 + Arrays.toString(primesResults)
-                + "\ncomposites:\n"
+                + "\nAverage time for composites:" + averageComposite + " compostie accuracy: " + evaluatingComposites / testRounds + " all data\n"
                 + Arrays.toString(compositeResults);
             io.writeMessage(saved, save + ".txt");
         }
@@ -157,16 +162,20 @@ public class Testing {
      */
     public void primeGeneration(int bits, int testRounds, String save, int mrRounds, boolean divideByPrimes) {
         double[] results = new double[testRounds];
+        timer.start();
         for (int i = 0; i < testRounds; i++) {
-            timer.start();
             primes.generate(bits, mrRounds, divideByPrimes);
             results[i] = timer.lap();
         }
-        
-        System.out.println("Average time to generate: " + timer.stop());
+        double average = timer.stop();
+        System.out.println("Average time to generate: " + average);
+
+        // save invidual results to a file incase save file specified
         if (!save.isEmpty()) {
             String saved = "prime generation:\n" 
-                + "bits: " + bits + " testRounds: " + testRounds + " mrRounds: " + mrRounds + " results in ms\n" 
+                + "bits: " + bits + " testRounds: " + testRounds + " mrRounds: " + mrRounds + " divideByPrimes: " + divideByPrimes
+                + "\nresults in ms\n" 
+                + "average: " + average + " ms\n"
                 + Arrays.toString(results);
             io.writeMessage(saved, save + ".txt");
         }

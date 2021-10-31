@@ -62,4 +62,12 @@ public class PrimesTest {
             assertTrue(primes.divideByPrimes(prime));
         }
     }
+
+    @Test
+    public void givenValueIsPrime() {
+        BigInteger prime = primes.generate(8, 10, true);
+        for (int i = 2; i < Math.sqrt(255.0); i++) {
+            assertFalse(prime.mod(new BigInteger(String.valueOf(i))).compareTo(BigInteger.ZERO) == 0);
+        }
+    }
 }

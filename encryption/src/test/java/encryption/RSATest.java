@@ -22,6 +22,7 @@ public class RSATest {
     RSA rsa;
     String message;
     String encryptedMessage;
+    Random random;
 
     String[] publicKey;
     String[] privateKey;
@@ -29,10 +30,10 @@ public class RSATest {
     @BeforeAll
     public void generateKeysTest() {
         rsa = new RSA();
-
-        BigInteger p = BigInteger.probablePrime(64, new Random());
-        BigInteger q = BigInteger.probablePrime(64, new Random());
-        BigInteger e = BigInteger.probablePrime(16, new Random());
+        random = new Random();
+        BigInteger p = BigInteger.probablePrime(64, random);
+        BigInteger q = BigInteger.probablePrime(64, random);
+        BigInteger e = BigInteger.probablePrime(16, random);
         String[] keys = rsa.generateKeys(p, q, e);
 
         publicKey = new String[2];
@@ -67,5 +68,46 @@ public class RSATest {
         String decrypted = rsa.decrypt(encryptedMessage, privateKey);
 
         assertEquals(message, decrypted);
+    }
+
+    @Test
+    public void cannotDecryptWithWrongKey() {
+        BigInteger random1 = new BigInteger(1024, random);
+        BigInteger random2 = new BigInteger(1024, random);
+
+        String[] fakeKey =new String[2];
+        fakeKey[0] = random1.toString();
+        fakeKey[1] = random2.toString();
+
+        String decrypted = rsa.decrypt(encryptedMessage, fakeKey);
+
+        assertNotEquals(decrypted, message);
+    }
+
+    @Test
+    public void differentKeysWontWork() {
+        BigInteger p = BigInteger.probablePrime(64, random);
+        BigInteger q = BigInteger.probablePrime(64, random);
+        BigInteger e = BigInteger.probablePrime(16, random);
+        String[] altKeys = rsa.generateKeys(p, q, e);
+
+        String[] altPublicKey = new String[2];
+        String[] altPrivateKey = new String[2];
+
+        altPrivateKey[0] = altKeys[0];
+        altPrivateKey[1] = altKeys[2];
+
+        altPublicKey[0] = altKeys[1];
+        altPublicKey[1] = altKeys[2];
+
+        assertNotEquals(altPublicKey, publicKey);
+        assertNotEquals(altPublicKey, publicKey);
+
+        assertNotEquals(altPrivateKey, privateKey);
+        assertNotEquals(altPrivateKey, privateKey);
+
+        String altDecrypted = rsa.encrypt(message, altPublicKey);
+        String decrypted = rsa.encrypt(message, publicKey);
+        assertNotEquals(altDecrypted, decrypted);
     }
 }

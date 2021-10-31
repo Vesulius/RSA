@@ -20,10 +20,10 @@ public class Primes {
      * 
      * Generates numbers until one passes the primality test
      * 
-     * @param Integer bitsize of the starting seed
-     * 
-     * @return BigInteger number that has passed the test
-     * @return if no number passess, null
+     * @param bits Integer bitsize of the starting seed
+     * @param rounds Integer rounds of MR-testing
+     * @param divideByPrimes boolean if divideByPrimes before MR-test
+     * @return BigInteger number that has passed the test. If no number passess, null
      */
     public BigInteger generate(int bits, int rounds, boolean divideByPrimes) {
         SecureRandom random = new SecureRandom();
@@ -79,7 +79,7 @@ public class Primes {
      * </P>
      * 
      * 
-     * @param prime BigInteger number to be tested for primality
+     * @param number BigInteger number to be tested for primality
      * @return boolean value. True if test is passed, false otherwise
      */
     // This is Miller-Rabin primality test for finding propable primes

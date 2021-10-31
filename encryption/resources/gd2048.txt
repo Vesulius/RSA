@@ -1,0 +1,5 @@
+prime generation:
+bits: 2048 testRounds: 10 mrRounds: 5 divideByPrimes: true
+results in ms
+average: 3122.2 ms
+[1353.0, 2142.0, 12298.0, 353.0, 317.0, 1208.0, 894.0, 1743.0, 10143.0, 771.0]

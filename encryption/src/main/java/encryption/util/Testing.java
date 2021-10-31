@@ -37,7 +37,7 @@ public class Testing {
      * </p>
      * 
      * @param bits integer bits size of tested values
-     * @param rounds integer rounds of testing different values
+     * @param testRounds integer rounds of testing different values
      * @param save String file name if you want to save invidual results
      */
     public void mrTestTiming(int bits, int testRounds, String save) {
@@ -103,7 +103,6 @@ public class Testing {
      * @param testRounds integer rounds of miller-rabin-tests
      * @param mrRounds integer rounds of testing
      * @param save String file name if you want to save invidual results
-     * @return double 
      */
     public void averageNumberOfAttempts(int bits, int testRounds, String save, int mrRounds) {
         double sum = 0;
@@ -158,7 +157,6 @@ public class Testing {
      * @param testRounds int amount of repeted tests
      * @param mrRounds int rounds of checking Miller-Rabin primality test
      * @param divideByPrimes boolean if divideByPrimes is used to quicken the results
-     * @return double average generation time in milliseconds.
      */
     public void primeGeneration(int bits, int testRounds, String save, int mrRounds, boolean divideByPrimes) {
         double[] results = new double[testRounds];

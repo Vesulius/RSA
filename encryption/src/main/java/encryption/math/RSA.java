@@ -21,7 +21,9 @@ public class RSA {
      * Stores keys as BigInteger arrays
      * </p>
      * 
-     * @param BigInteger primes for calculations
+     * @param p BigInteger primes for calculations
+     * @param q BigInteger primes for calculations
+     * @param e BigInteger primes for calculations
      * @return String array with lenght 3 for all keys in bytes
      * 
      */

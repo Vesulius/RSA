@@ -1,4 +1,4 @@
-## Project definition
+# Project definition
 
 The aim of my project is to implement RSA public-key cryptosystem. The end goal is a program that can generate public and private keys and then use these to encrypt and decrypt text. The goal is to create secure way to scramble arbitary lenght text files and then decrypt them. 
 
@@ -6,7 +6,7 @@ The language used is Java and both the code and the documentation will be writte
 
 I'm in the bach­el­or's pro­gramme in computer science (TKT). 
 
-#### Algorithm
+## Algorithm
 
 Initially I plan on impementing a very simple version of RSA encyption as described in https://www.di-mgt.com.au/rsa_alg.html.
 This first version will use small prime numbers and will use smaller numbers and as such will not be very effective encryption. 
@@ -20,7 +20,7 @@ The encryption and decrytion is quite simple after the keys have been generated.
 
 The aim is also to test the security of the RSA and possibly compare it to other popular available encryption algorithms.
 
-#### Interface
+## Interface
 
 Interacting with the program will happen through simple console interface with some ascii graphics as it will save time and the rsa algorithm is not very visual.
 

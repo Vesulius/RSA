@@ -1,0 +1,6 @@
+mr-test:
+bits: 4096 rounds: 10 results in ms
+Average time for primes: 27.1 all data:
+[28.0, 27.0, 27.0, 28.0, 26.0, 27.0, 26.0, 28.0, 27.0, 27.0]
+Average time for composites:27.4 all data
+[28.0, 28.0, 27.0, 29.0, 27.0, 27.0, 26.0, 27.0, 28.0, 27.0]

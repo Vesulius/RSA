@@ -8,4 +8,5 @@ Week     | time | target |
 4 | 12h | Connected the seperate classes and added ui class |
 5 | 8h | Several minor improvements and documentation |
 6 | 6h | Some fixes and mostly going back and fourth on performance testing |
-Total | 66h   |  |
+final | 20h | Rewrote testing class and bunch of documentation |
+Total | 86h  | Project finished |

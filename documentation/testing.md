@@ -1,10 +1,15 @@
-## Testing
+# Testing
 
 This project is tested using Java JUnit 5 and checkstyle.
 
-#### JUnit
+## JUnit
 
 All classes apart from Main class and ui have several junit tests. Main class is not tested as it has no functionality on its own and ui is tested manually.
+
+Jacoco test results can be seen from **RSA folder** with command
+
+```$ YOUR_BROWSER encryption/build/reports/jacoco/test/html/index.html ```
+
 
 ##### PrimesTest
 
@@ -20,6 +25,9 @@ All classes apart from Main class and ui have several junit tests. Main class is
 * Test if same string imput gives the same result.
 * Test if string message can be encrypted to different form.
 * Test if encrypted message can be decrypted to its original form.
+* Test if two different keys are same
+* Test if two different keys encrypt same message to same data
+* Test if two different keys can decrypt others messages
 
 ##### FileIOTest
 
@@ -31,10 +39,18 @@ All classes apart from Main class and ui have several junit tests. Main class is
 * Tests if keys can be generated and written to file.
 * Tests if message can be encypted to file.
 * Tests if message can be decrypted from file.
+* Tests if custom tests can be used
+
+#### TestingTest
+
+* Tests if results can be saved to file
+* Tests if results are correct
 
 
-#### Checksyle
+## Checksyle
 
 All code follows checksyle rules given in checksytle.xml found in config. 
 
-[Full reports for checksyle and junit](https://github.com/Vesulius/RSA/tree/master/documentation/reports).
+Checkstyle results can be seen from **RSA folder** with command
+
+```$ YOUR_BROWSER encryption/build/reports/checkstyle/main.html ```

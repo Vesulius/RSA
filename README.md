@@ -8,6 +8,10 @@ This repository is student project for the course *data structures and algorithm
 
 [Manual](https://github.com/Vesulius/RSA/tree/master/documentation/manual.md)
 
+[Performance report](https://github.com/Vesulius/RSA/tree/master/documentation/performance.md)
+
+[implementation](https://github.com/Vesulius/RSA/tree/master/documentation/implementation.md)
+
 [Test report](https://github.com/Vesulius/RSA/tree/master/documentation/testing.md)
 
 [Hours report](https://github.com/Vesulius/RSA/tree/master/documentation/hour_report.md)
@@ -21,3 +25,4 @@ This repository is student project for the course *data structures and algorithm
 * [Week 4](https://github.com/Vesulius/RSA/tree/master/documentation/week_4.md)
 * [Week 5](https://github.com/Vesulius/RSA/tree/master/documentation/week_5.md)
 * [Week 6](https://github.com/Vesulius/RSA/tree/master/documentation/week_6.md)
+* [Final week](https://github.com/Vesulius/RSA/tree/master/documentation/week_final.md)

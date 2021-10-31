@@ -2,6 +2,8 @@
 
 This program uses Gradle – a build automation tool for multi-language software development as Wikipedia descibes it.
 
+
+
 ## Gradle commands 
 
 **Gradle commands must be run in the encryption folder**. You can use eather ./gradlew or just gradle if your computer has right version of gradle.
@@ -30,6 +32,14 @@ Checks code against set checkstyle rules
 
 Generates javadoc in build folder
 
+
+## Jar file 
+
+Building project creates jar file. This can be run from the **RSA folder** with 
+
+```$ java -jar encryption/build/libs/encryption.jar ```
+
+
 ## Program functions
 
 The use of this program is quite simple. When ran it will explain the available commands:
@@ -38,6 +48,8 @@ The use of this program is quite simple. When ran it will explain the available 
 * 'read' or 'r' reads and decrypts the messge in encrypted.txt folder.
 * 'test' or 't' crates custom tests
 * 'quit' or 'q' quits the program
+
+
 
 #### Testing
 

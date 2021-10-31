@@ -25,6 +25,12 @@ Here we can see that the packages are almost entirely seperated by Logic class. 
     * Testing: several tests for Prime generation
     * Timer: timer for timing tests
 
+Full project structure can be seen with javadoc from **RSA folder** with command: 
+
+```$ YOUR_BROWSER encryption/build/docs/javadoc/index.html ```
+
+You first must create the report with gradle. [Manual](https://github.com/Vesulius/RSA/tree/master/documentation/manual.md)
+
 
 ## RSA- and Miller-Rabin primality algorithm
 

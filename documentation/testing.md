@@ -6,10 +6,11 @@ This project is tested using Java JUnit 5 and checkstyle.
 
 All classes apart from Main class and ui have several junit tests. Main class is not tested as it has no functionality on its own and ui is tested manually.
 
-Jacoco test results can be seen from **RSA folder** with command
+Jacoco test results can be seen from **RSA folder** with command: 
 
 ```$ YOUR_BROWSER encryption/build/reports/jacoco/test/html/index.html ```
 
+You first must create the report with gradle. [Manual](https://github.com/Vesulius/RSA/tree/master/documentation/manual.md)
 
 ##### PrimesTest
 

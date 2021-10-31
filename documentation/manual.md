@@ -26,6 +26,10 @@ Runs this project as a JVM application. Can also be run with just ./gradlew run.
 
 Checks code against set checkstyle rules
 
+```$ ./gradlew javadoc```
+
+Generates javadoc in build folder
+
 ## Program functions
 
 The use of this program is quite simple. When ran it will explain the available commands:

@@ -4,6 +4,8 @@ Performance testing was done on prime generation as RSA algorithm requires quite
 
 The RSA encryption/decryption speed was not tested as the time complexity for these is O(1) and they use Javas BigInteger class so no original implementation. 
 
+
+
 ## Workings and challenges
 
 MR -test works by generaiting random number a between 0 and tested number n. Then using a the algorithm tests if n is prime.
@@ -14,6 +16,8 @@ MR -test involves a lot of randomness. To generate prime number we test random n
 
 This randomness will couse performance inconsistency. Lets try to insulate the problems and see how much it affects the results.
 
+
+
 #### Testing same number multiple times
 
 Testing same number multiple times to see how much each test length varies based on the generated a value. The size of the tested number needs to be big (at least 1024 bytes) to see any clear results.
@@ -23,14 +27,18 @@ We will test primes and composites seperately. Both numbers are generated with B
 Average time of 10 rounds to test prime number: 30.8 ms
 Average time of 10 rounds to test composite number: 31.8 ms
  
->aValueTest:
->bits: 4096 rounds: 10 results are in ms
->primes:
->[32.0, 32.0, 32.0, 31.0, 31.0, 31.0, 31.0, 31.0, 28.0, 29.0]
->composites:
->[29.0, 30.0, 28.0, 34.0, 31.0, 31.0, 32.0, 32.0, 34.0, 37.0]
+```
+aValueTest:
+bits: 4096 rounds: 10 results are in ms
+primes:
+[32.0, 32.0, 32.0, 31.0, 31.0, 31.0, 31.0, 31.0, 28.0, 29.0]
+composites:
+[29.0, 30.0, 28.0, 34.0, 31.0, 31.0, 32.0, 32.0, 34.0, 37.0]
+```
 
 As the results show, the random a value has only couple of ms difference on the final results. The smaller the tested number the smaller the effect still and the style of measuring used is too imprecise to show any difference with smaller numbers.
+
+
 
 #### Chances of guessing prime number
 
@@ -51,16 +59,18 @@ Proof:
 
 **2^N** has half as mady digits as **2^(2N)**. We will name **x** as the difference in probability
 
-**1/log(2^N) = x * 1/log(2^(2N))**
-**=>log(2^(2N)) = x * log(2^N)**
-**=>log(2^(2N)) = log(2^(xN))**
-**=>log(2^(2N)) – log(2^(xN)) = 0**
-**=>log(2^(2N) / 2^(xN)) = 0**
-**2^(2N) / 2^(xN) = e^0**
-**2^(2N) / 2^(xN) = 1**
-**2^(2N) = 2^(xN)**
-**2N = xN**
-**x = 2**
+```
+1/log(2^N) = x * 1/log(2^(2N))
+=>log(2^(2N)) = x * log(2^N)
+=>log(2^(2N)) = log(2^(xN))
+=>log(2^(2N)) – log(2^(xN)) = 0
+=>log(2^(2N) / 2^(xN)) = 0
+2^(2N) / 2^(xN) = e^0
+2^(2N) / 2^(xN) = 1
+2^(2N) = 2^(xN)
+2N = xN
+x = 2
+```
 
 For example, the probability of random integer from 1 to 512 bit being prime is approximately 
 
@@ -97,35 +107,41 @@ Frequency charts for number of guesses from 1000 attempts. Results are rounded t
 
 Searching from 1 to 1024
 
-![attempts1024](/documentation/pictures/numOfAtt_bits1024_testRounds100_mrRounds5.png "attempts1024")
+![attempts1024](https://github.com/Vesulius/RSA/blob/master/documentation/pictures/numOfAtt_bits1024_testRounds1000_mrRounds5.png "attempts1024")
 
 Searching from 1 to 512
 
-![attempts512](/documentation/pictures/numOfAtt_bits512_testRounds100_mrRounds5.png "attempts512")
+![attempts512](https://github.com/Vesulius/RSA/blob/master/documentation/pictures/numOfAtt_bits512_testRounds1000_mrRounds5.png "attempts512")
 
 Searching from 1 to 256
 
-![attempts256](/documentation/pictures/numOfAtt_bits256_testRounds100_mrRounds5.png "attempts256")
+![attempts256](https://github.com/Vesulius/RSA/blob/master/documentation/pictures/numOfAtt_bits256_testRounds1000_mrRounds5.png "attempts256")
 
 As we can see all the charts 'lean' left suggesting that the median time is actually much faster than the average with some outliers taking conciderably more guesses.
+
+
 
 #### Time to complite MR -test
 
 The average time to complete MR-test with randomly generated numbers. We will look at the prime- and composite numbers separately to see if there is any difference. Again, this must be done with big numbers (at least 2048 bytes) to see any difference with results.
 
->mr-test:
->bits: 2048 rounds: 10 results in ms
->Average time for primes: 3.6 all data:
->[4.0, 3.0, 4.0, 3.0, 4.0, 3.0, 4.0, 3.0, 4.0, 4.0]
->Average time for composites: 3.7 all data:
->[3.0, 4.0, 4.0, 4.0, 4.0, 3.0, 4.0, 3.0, 4.0, 4.0]
+```
+mr-test:
+bits: 2048 rounds: 10 results in ms
+Average time for primes: 3.6 all data:
+[4.0, 3.0, 4.0, 3.0, 4.0, 3.0, 4.0, 3.0, 4.0, 4.0]
+Average time for composites: 3.7 all data:
+[3.0, 4.0, 4.0, 4.0, 4.0, 3.0, 4.0, 3.0, 4.0, 4.0]
+```
 
->mr-test:
->bits: 4096 rounds: 10 results in ms
->Average time for primes: 27.1 all data:
->[28.0, 27.0, 27.0, 28.0, 26.0, 27.0, 26.0, 28.0, 27.0, 27.0]
->Average time for composites:27.4 all data
->[28.0, 28.0, 27.0, 29.0, 27.0, 27.0, 26.0, 27.0, 28.0, 27.0]
+```
+mr-test:
+bits: 4096 rounds: 10 results in ms
+Average time for primes: 27.1 all data:
+[28.0, 27.0, 27.0, 28.0, 26.0, 27.0, 26.0, 28.0, 27.0, 27.0]
+Average time for composites:27.4 all data
+[28.0, 28.0, 27.0, 29.0, 27.0, 27.0, 26.0, 27.0, 28.0, 27.0]
+```
 
 Chart with 10 rouds average time in ms compleating MR-test:
 
@@ -136,6 +152,7 @@ Chart with 10 rouds average time in ms compleating MR-test:
 | 1024 | 0.6 | 0.7 |
 
 From this sample size it seems there is no clear difference between prime- and composite numbers.
+
 
 
 ## Prime generation
@@ -161,19 +178,25 @@ As we might expect from the previous frequency charts the standard deviation is 
 
 For example:
 
->prime generation:
->bits: 2048 testRounds: 10 mrRounds: 5 divideByPrimes: false
->results in ms
->average: 46384.4 ms
->[45346.0, 9623.0, 23238.0, 7973.0, 126762.0, 195.0, 100661.0, 55180.0, 50587.0, 44279.0]
+```
+prime generation:
+bits: 2048 testRounds: 10 mrRounds: 5 divideByPrimes: false
+results in ms
+average: 46384.4 ms
+[45346.0, 9623.0, 23238.0, 7973.0, 126762.0, 195.0, 100661.0, 55180.0, 50587.0, 44279.0]
+```
 
 Here the shortest 195 ms  ≈ 0.2 seconds and the longest one was 100661 ms ≈ 100 seconds, witch is 500 times as much. 
 
+
+
 ## Accuracy
 
-The accuracy of MR-test is quite high. Composite number will be decleared as prime with at most probability of 1/4^k where k is the number of MR-testrounds. In reality it is often significantly smaller than this.
+The accuracy of MR-test is quite high. Composite number will be decleared as prime with at most probability of 1/4^k where k is the number of MR-testrounds. In reality the probability is often significantly smaller than this.
 
 Running tests with only 1 round of testing still coundn't find false prime. 
 
+```
 Testing 10000 64 byte numbers was 100% accurate.
 Testing 1000000 32 byte numbers was 100% accurate.
+```

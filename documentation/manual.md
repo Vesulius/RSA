@@ -51,7 +51,7 @@ The use of this program is quite simple. When ran it will explain the available 
 
 
 
-#### Testing
+## Testing
 
 There are three different tests: timing, attempts, generation
 

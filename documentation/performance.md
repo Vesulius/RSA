@@ -5,7 +5,6 @@ Performance testing was done on prime generation as RSA algorithm requires quite
 The RSA encryption/decryption speed was not tested as the time complexity for these is O(1) and they use Javas BigInteger class so no original implementation. 
 
 
-
 ## Workings and challenges
 
 MR -test works by generaiting random number a between 0 and tested number n. Then using a the algorithm tests if n is prime.
@@ -17,8 +16,7 @@ MR -test involves a lot of randomness. To generate prime number we test random n
 This randomness will couse performance inconsistency. Lets try to insulate the problems and see how much it affects the results.
 
 
-
-#### Testing same number multiple times
+## Testing same number multiple times
 
 Testing same number multiple times to see how much each test length varies based on the generated a value. The size of the tested number needs to be big (at least 1024 bytes) to see any clear results.
 
@@ -40,7 +38,7 @@ As the results show, the random a value has only couple of ms difference on the 
 
 
 
-#### Chances of guessing prime number
+## Chances of guessing prime number
 
 There are infinite amount of prime numbers but they get increasingly rare the further we go in the positive integer space. The distubution of prime numbers approximates **N/log(N)**. This means that for integer **N** there are about **N/log(N)** prime numbers between **1** and **N**. 
 
@@ -49,7 +47,9 @@ What interests us is the probability of random integer being prime. Lets calcula
 The amount of prime numbers  between **1** and **N** is approximately **N/log(N)**.
 This then must be divided by **N** to get to the the actual probability.
 
-**N/log(N)/N=1/log(N)**
+```
+    N/log(N)/N=1/log(N)**
+```
 
 So the probability of any random integer **1** and **N** being prime is close to **1/log(N)**
 
@@ -60,32 +60,38 @@ Proof:
 **2^N** has half as mady digits as **2^(2N)**. We will name **x** as the difference in probability
 
 ```
-1/log(2^N) = x * 1/log(2^(2N))
-=>log(2^(2N)) = x * log(2^N)
-=>log(2^(2N)) = log(2^(xN))
-=>log(2^(2N)) – log(2^(xN)) = 0
-=>log(2^(2N) / 2^(xN)) = 0
-2^(2N) / 2^(xN) = e^0
-2^(2N) / 2^(xN) = 1
-2^(2N) = 2^(xN)
-2N = xN
-x = 2
+    1/log(2^N) = x * 1/log(2^(2N))
+    log(2^(2N)) = x * log(2^N)
+    log(2^(2N)) = log(2^(xN))
+    log(2^(2N)) – log(2^(xN)) = 0
+    log(2^(2N) / 2^(xN)) = 0
+    2^(2N) / 2^(xN) = e^0
+    2^(2N) / 2^(xN) = 1
+    2^(2N) = 2^(xN)
+    2N = xN
+    x = 2
 ```
 
 For example, the probability of random integer from 1 to 512 bit being prime is approximately 
 
-**1/log(2^512) ≈ 0.0028177637517361**
+```
+    1/log(2^512) ≈ 0.0028177637517361
+```
 
 The probability of random integer from 1 to 512 bit being prime is approximately
 
 The average number of guesses until prime number is found is
 
-**x * 0.0028177637517361 = 1**
-**=>x = 1/0.0028177637517361 = 354.89135644671 ≈ 355**
+```
+    x * 0.0028177637517361 = 1
+    x = 1/0.0028177637517361 = 354.89135644671 ≈ 355
+```
 
 And the average number of guesses for integers from 1 to 1024 bit is
 
-**1/1/log(2^1024) = log(2^1024) = 709.782712893 ≈ 710**
+```
+    1/1/log(2^1024) = log(2^1024) = 709.782712893 ≈ 710
+```
 
 Here we see that **2 * 355 = 710** as predicted.
 
@@ -121,7 +127,7 @@ As we can see all the charts 'lean' left suggesting that the median time is actu
 
 
 
-#### Time to complite MR -test
+## Time to complite MR -test
 
 The average time to complete MR-test with randomly generated numbers. We will look at the prime- and composite numbers separately to see if there is any difference. Again, this must be done with big numbers (at least 2048 bytes) to see any difference with results.
 
@@ -162,7 +168,7 @@ Now putting the tests above together and testing prime generation timing.
 Chart for average time to generate prime number:
 
 | byte size | without divideByPrimes | standard deviation | with divideByPrimes | rounds |
-|---|---|---|---|
+|---|---|---|---|---|
 | 2048 | 46384.4 | 40829.0 | 3122.2 | 10 |
 | 1024 | 1573.1 | 1518.7 |  134.2 | 10 |
 | 512 | 160.28 | 160.0 | 16.61 | 100 |
@@ -170,7 +176,7 @@ Chart for average time to generate prime number:
 | 128 | 5.87 | 8.2 | 0.85 | 100 |
 | 64 | 1.6 | 2.8 | 1.0 | 100 |
 
-Different rounds were used as it would takes very long to generate big numbers (for 2048 byte numbers 46384 * 100 / 60 = 77 minutes). 
+Different rounds were used as it would takes very long to generate big numbers (for 2048 byte numbers 46384 * 100 / 1000 / 60 = 77 minutes). 
 
 The divide by primes option simply attempts to divide the tested number by the first 100 prime numbers. If the number cannot be divided the tested number is then given to MR-test. Here we can see how much work dividing by primes quickens the process.
 

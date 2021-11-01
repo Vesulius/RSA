@@ -12,6 +12,8 @@ Jacoco test results can be seen from **RSA folder** with command:
 
 You first must create the report with gradle. [Manual](https://github.com/Vesulius/RSA/tree/master/documentation/manual.md)
 
+
+
 ##### PrimesTest
 
 * Test if prime numbers pass the Miller-Rabin primality test. Prime numbers are generated with Javas BigInteger-classes propablePrime-function.
@@ -55,3 +57,5 @@ All code follows checksyle rules given in checksytle.xml found in config.
 Checkstyle results can be seen from **RSA folder** with command
 
 ```$ YOUR_BROWSER encryption/build/reports/checkstyle/main.html ```
+
+You first must create the report with gradle. [Manual](https://github.com/Vesulius/RSA/tree/master/documentation/manual.md)

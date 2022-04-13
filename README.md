@@ -2,6 +2,16 @@
 
 This repository is student project for the course *data structures and algorithms project* (TKT20010) from *University of Helsinki*.
 
+#### Quickstart with docker
+
+Quickstart with docker. In the **encryption folder** build docker image with 
+
+```$ docker build . -t rsa``` 
+
+Run image with
+
+```$ docker run -it rsa``` 
+
 #### Project documentation
 
 [Project definition](https://github.com/Vesulius/RSA/tree/master/documentation/project_definition.md)

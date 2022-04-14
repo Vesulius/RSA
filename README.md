@@ -6,7 +6,7 @@ This repository is student project for the course *data structures and algorithm
 
 Build docker image locally. In the **encryption folder** build docker image with 
 
-```$ docker build . -t rsa``` 
+```$ docker build . -t vesulius/rsa``` 
 
 Download docker image from DockerHub with
 
@@ -14,7 +14,7 @@ Download docker image from DockerHub with
 
 Run image with
 
-```$ docker run -it rsa``` 
+```$ docker run -it vesluius/rsa``` 
 
 ## Project documentation
 

@@ -14,7 +14,7 @@ Download docker image from DockerHub with
 
 Run image with
 
-```$ docker run -it vesluius/rsa``` 
+```$ docker run -it vesulius/rsa``` 
 
 ## Project documentation
 
